@@ -161,12 +161,9 @@ private final class ConnectPeripheralRequest {
         self.peripheral = peripheral
     }
     
-    func invokeCallbacks(result: PeripheralConnectionResult) {
+    func invokeCallbacks(result: Result<Peripheral>) {
         for callback in callbacks {
-            switch result {
-            case .failed(let error): callback(.failed(error: error))
-            case .success(let peripheral): callback(.success(peripheral: peripheral))
-            }
+            callback(result)
         }
     }
 }
@@ -175,14 +172,14 @@ extension CentralProxy {
     func connect(peripheral: CBPeripheral, timeout: TimeInterval, _ callback: @escaping ConnectPeripheralCallback) {
         initializeBluetooth { [unowned self] (error) in
             if let error = error {
-                callback(.failed(error: error))
+                callback(.failure(error))
                 return
             }
             
             let uuid = peripheral.identifier
             
             if let cbPeripheral = self.centralManager.retrievePeripherals(withIdentifiers: [uuid]).first , cbPeripheral.state == .connected {
-                callback(.success(peripheral: Peripheral(peripheral: cbPeripheral)))
+                callback(.success(Peripheral(peripheral: cbPeripheral)))
                 return
             }
             
@@ -206,7 +203,7 @@ extension CentralProxy {
     func connect(peripheralUUID: UUID, serviceUUIDs: [CBUUID], timeout: TimeInterval, _ callback: @escaping ConnectPeripheralCallback) {
         initializeBluetooth { [unowned self] (error) in
             if let error = error {
-                callback(.failed(error: error))
+                callback(.failure(error))
                 return
             }
             
@@ -216,7 +213,7 @@ extension CentralProxy {
            
             if let cbPeripheral = self.centralManager.retrievePeripherals(withIdentifiers: [uuid]).first {
                 if cbPeripheral.state == .connected {
-                    callback(.success(peripheral: Peripheral(peripheral: cbPeripheral)))
+                    callback(.success(Peripheral(peripheral: cbPeripheral)))
                     return
                 } else {
                     peripheral = cbPeripheral
@@ -246,7 +243,7 @@ extension CentralProxy {
                         userInfo: Weak(value: request),
                         repeats: false)
                 } else {
-                    callback(.failed(error: .peripheralFailedToConnectReasonUnknown))
+                    callback(.failure(SBError.peripheralFailedToConnectReasonUnknown))
                     return
                 }
             }
@@ -269,7 +266,7 @@ extension CentralProxy {
         
         self.centralManager.cancelPeripheralConnection(request.peripheral)
         
-        request.invokeCallbacks(result: .failed(error: .operationTimedOut(operation: .connectPeripheral)))
+        request.invokeCallbacks(result: .failure(SBError.operationTimedOut(operation: .connectPeripheral)))
     }
 }
 
@@ -285,12 +282,9 @@ private final class DisconnectPeripheralRequest {
         self.peripheral = peripheral
     }
     
-    func invokeCallbacks(result: PeripheralConnectionResult) {
+    func invokeCallbacks(result: Result<Peripheral>) {
         for callback in callbacks {
-            switch result {
-            case .failed(let error): callback(.failed(error: error))
-            case .success(let peripheral): callback(.success(peripheral: peripheral))
-            }
+            callback(result)
         }
     }
 }
@@ -300,7 +294,7 @@ extension CentralProxy {
         initializeBluetooth { [unowned self] (error) in
             
             if let error = error {
-                callback(.failed(error: error))
+                callback(.failure(error))
                 return
             }
             
@@ -308,7 +302,7 @@ extension CentralProxy {
             
             if let cbPeripheral = self.centralManager.retrievePeripherals(withIdentifiers: [uuid]).first,
                 (cbPeripheral.state == .disconnected || cbPeripheral.state == .disconnecting) {
-                callback(.success(peripheral: Peripheral(peripheral: cbPeripheral)))
+                callback(.success(Peripheral(peripheral: cbPeripheral)))
                 return
             }
             
@@ -343,7 +337,7 @@ extension CentralProxy {
         
         self.disconnectRequests[uuid] = nil
         
-        request.invokeCallbacks(result: .failed(error: .operationTimedOut(operation: .disconnectPeripheral)))
+        request.invokeCallbacks(result: .failure(SBError.operationTimedOut(operation: .disconnectPeripheral)))
     }
 }
 
@@ -379,7 +373,7 @@ extension CentralProxy: CBCentralManagerDelegate {
         
         self.connectRequests[uuid] = nil
         
-        request.invokeCallbacks(result: .success(peripheral: Peripheral(peripheral: peripheral)))
+        request.invokeCallbacks(result: .success(Peripheral(peripheral: peripheral)))
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
@@ -391,9 +385,9 @@ extension CentralProxy: CBCentralManagerDelegate {
         self.disconnectRequests[uuid] = nil
         
         if let error = error {
-            request.invokeCallbacks(result: .failed(error: .peripheralFailedToDisconnectWithError(error: error)))
+            request.invokeCallbacks(result: .failure(SBError.peripheralFailedToDisconnectWithError(error: error)))
         } else {
-            request.invokeCallbacks(result: .success(peripheral: Peripheral(peripheral: peripheral)))
+            request.invokeCallbacks(result: .success(Peripheral(peripheral: peripheral)))
         }
     }
     
@@ -412,7 +406,7 @@ extension CentralProxy: CBCentralManagerDelegate {
             resolvedError = .peripheralFailedToConnectReasonUnknown
         }
 
-        request.invokeCallbacks(result: .failed(error: resolvedError))
+        request.invokeCallbacks(result: .failure(resolvedError))
     }
     
     func centralManager(_ central: CBCentralManager,
