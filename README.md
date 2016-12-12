@@ -118,7 +118,7 @@ peripheral.writeValue(ofCharacWithUUID: "1d5bc11d-e28c-4157-a7be-d8b742a013d8",
                       value: exampleBinaryData) { result in
     switch result {
     case .success:
-        break // The write was succesful.
+        break // The write was successful.
     case .failure(let error):
         break // An error happened while writting the data.
     }
@@ -130,16 +130,21 @@ Receiving characteristic value updates is done through notifications on the defa
 // First we prepare ourselves to receive update notifications 
 let peripheral = somePeripheral
 
-NotificationCenter.defaultCenter().addObserverForName(PeripheralEvent.characteristicValueUpdate.rawValue, 
-                                                        object: peripheral, 
-                                                        queue: nil) { (notification) in
-    let updatedCharacteristic: CBCharacteristic = notification.userInfo["characteristic"]!
-    var newValue = updatedCharacteristic.value 
+NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: PeripheralEvent.characteristicValueUpdate.rawValue), 
+                                                                    object: peripheral, 
+                                                                    queue: nil) { notification in
+    let updatedCharacteristic = notification.userInfo?["characteristic"] as! CBCharacteristic
+    var newValue = updatedCharacteristic.value
 }
 
 // We can then set a characteristic's notification value to true and start receiving updates to that characteristic
-peripheral.setNotifyValue(toEnabled: true, forCharacWithUUID: "2A29", ofServiceWithUUID: "180A") { (isNotifying, error) in
-    // If there were no errors, you will now receive NSNotifications when that characteristic value gets updated.
+peripheral.setNotifyValue(toEnabled: true, forCharacWithUUID: "2A29", ofServiceWithUUID: "180A") { result in
+    switch result {
+    case .success(let isNotifying):
+        break // You will now receive NSNotifications when that characteristic value gets updated.
+    case .failure(let error):
+        break // An error happened setting the characteristic to notify.
+    }
 }
 ```
 ### Discovering services 
