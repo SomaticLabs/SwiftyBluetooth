@@ -185,11 +185,6 @@ extension CentralProxy {
             
             let uuid = peripheral.identifier
             
-            if let cbPeripheral = self.centralManager.retrievePeripherals(withIdentifiers: [uuid]).first , cbPeripheral.state == .connected {
-                callback(.success(Peripheral(peripheral: peripheral)))
-                return
-            }
-            
             if let request = self.connectRequests[uuid] {
                 request.callbacks.append(callback)
             } else {
@@ -235,24 +230,10 @@ extension CentralProxy {
                 }
             }
             
-            if let request = self.connectRequests[uuid] {
-                request.callbacks.append(callback)
+            if let peripheral = peripheral {
+                Central.sharedInstance.connect(peripheral: peripheral, completion: callback)
             } else {
-                if let peripheral = peripheral {
-                    let request = ConnectPeripheralRequest(peripheral: peripheral, callback: callback)
-                    self.connectRequests[uuid] = request
-                    
-                    self.centralManager.connect(peripheral, options: nil)
-                    Timer.scheduledTimer(
-                        timeInterval: timeout,
-                        target: self,
-                        selector: #selector(self.onConnectTimerTick),
-                        userInfo: Weak(value: request),
-                        repeats: false)
-                } else {
-                    callback(.failure(SBError.peripheralFailedToConnectReasonUnknown))
-                    return
-                }
+                callback(.failure(SBError.invalidPeripheral))
             }
         }
     }

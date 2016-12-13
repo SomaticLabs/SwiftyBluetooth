@@ -178,7 +178,7 @@ extension Central {
                         serviceUUIDs: [CBUUID],
                         timeout: TimeInterval = 10,
                         completion: @escaping ConnectPeripheralCallback) {
-        centralProxy.connect(peripheralUUID: peripheralUUID, serviceUUIDs: serviceUUIDs, timeout: timeout, completion)
+        self.centralProxy.connect(peripheralUUID: peripheralUUID, serviceUUIDs: serviceUUIDs, timeout: timeout, completion)
     }
     
     /// Attempts to return the periperals from a list of identifier "UUID"s
