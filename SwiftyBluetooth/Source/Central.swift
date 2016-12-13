@@ -137,17 +137,17 @@ extension Central {
         }
     }
     
+    /// The underlying CBCentralManager isScanning value
+    public var isScanning: Bool {
+        return self.centralProxy.centralManager.isScanning
+    }
+    
     #if SWIFTYBLUETOOTH_DIRECT_ACCESS
     /// The underlying CBCentralManager class
     public var centralManager: CBCentralManager {
         return self.centralProxy.centralManager
     }
     #endif
-    
-    /// The underlying CBCentralManager isScanning value
-    public var isScanning: Bool {
-        return self.centralProxy.centralManager.isScanning
-    }
     
     #if SWIFTYBLUETOOTH_DIRECT_ACCESS
     /// The underlying CBCentralManager delegate value
