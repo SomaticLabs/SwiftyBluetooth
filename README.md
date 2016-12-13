@@ -48,6 +48,7 @@ SwiftyBluetooth.scanForPeripherals(withServiceUUIDs: nil, timeoutAfter: 15) { sc
 Note that the callback closure can be called multiple times, but always start and finish with a callback containing a `.scanStarted` and `.scanStopped` result respectively. Your callback will be called with a `.scanResult` for every unique peripheral found during the scan.  
 
 ### Connecting to a peripheral
+If you already have a reference to the peripheral you would like to connect to, you can do so like this:
 ```swift
 peripheral.connect { result in 
     switch result {
@@ -57,6 +58,16 @@ peripheral.connect { result in
         break // An error happened while connecting
     }
 }
+However, if you are trying to connect to your peripheral from a previous saved identifier and set of services this can be done like this:
+```swift
+central.connect(peripheralUUID: identifier, serviceUUIDs: serviceIdentifiers, completion: { result in
+    switch result {
+    case .success:
+        break // You are now connected to the peripheral
+    case .failure(let error):
+        break // An error happened while connecting
+    }
+})
 ```
 ### Disconnecting from a peripheral
 ```swift
