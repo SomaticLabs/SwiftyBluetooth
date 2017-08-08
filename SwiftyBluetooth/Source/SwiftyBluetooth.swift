@@ -25,16 +25,26 @@ import CoreBluetooth
 
 // MARK: Shorthands for the Central singleton instance interface
 
+/// Allows you to initially set the Central sharedInstance and use the restore
+/// identifier string of your choice for state preservation between app
+/// launches. Must be called before anything else from the library and can only be called once.
+@discardableResult
+public func setSharedCentralInstanceWith(restoreIdentifier: String) -> Central {
+    return Central.setSharedInstanceWith(restoreIdentifier: restoreIdentifier)
+}
+
 /// Scans for Peripherals through a CBCentralManager scanForPeripheralsWithServices(...) function call.
 ///
 /// - Parameter timeout: The scanning time in seconds before the scan is stopped and the completion closure is called with a scanStopped result.
 /// - Parameter serviceUUIDs: The service UUIDs to search peripherals for or nil if looking for all peripherals.
 /// - Parameter completion: The closures, called multiple times throughout a scan.
 public func scanForPeripherals(withServiceUUIDs serviceUUIDs: [CBUUIDConvertible]? = nil,
+                               options: [String : Any]? = nil,
                                timeoutAfter timeout: TimeInterval,
                                completion: @escaping PeripheralScanCallback)
 {
     Central.sharedInstance.scanForPeripherals(withServiceUUIDs: serviceUUIDs,
+                                              options: options,
                                               timeoutAfter: timeout,
                                               completion: completion)
 }

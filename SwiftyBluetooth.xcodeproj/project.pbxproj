@@ -20,7 +20,8 @@
 		09C576AB1CC626C70001EFF7 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A71CC626C70001EFF7 /* Peripheral.swift */; };
 		09C576AC1CC626C70001EFF7 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A81CC626C70001EFF7 /* Util.swift */; };
 		09DEF3B11CC839DE00F9B4EE /* CBUUIDConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEF3B01CC839DE00F9B4EE /* CBUUIDConvertible.swift */; };
-		5949336FBD625A0984FED486 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59493C943987B6C658526D67 /* Result.swift */; };
+		408B5F7D1F3A2E6D0054F435 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B5F7C1F3A2E6D0054F435 /* Result.swift */; };
+		C5317C9D1EC658E5007179BC /* (null) in Sources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +44,8 @@
 		09D515311D2DA90A00049B59 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		09DEF3B01CC839DE00F9B4EE /* CBUUIDConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CBUUIDConvertible.swift; path = Source/CBUUIDConvertible.swift; sourceTree = "<group>"; };
 		403A5CFD1DFA11C9000D5FDE /* SwiftyBluetoothFlags.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SwiftyBluetoothFlags.xcconfig; path = "Supporting Files/SwiftyBluetoothFlags.xcconfig"; sourceTree = "<group>"; };
+		408B5F7C1F3A2E6D0054F435 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
 		409D194F1DFA206B0095F4BC /* SwiftyBluetoothConfiguration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SwiftyBluetoothConfiguration.xcconfig; sourceTree = "<group>"; };
-		59493C943987B6C658526D67 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,13 +115,13 @@
 				09C576A61CC626C70001EFF7 /* SBError.swift */,
 				09C576A51CC626C70001EFF7 /* Central.swift */,
 				0974ABA31D28C176008B1B4F /* CentralProxy.swift */,
+				408B5F7C1F3A2E6D0054F435 /* Result.swift */,
 				09C576A71CC626C70001EFF7 /* Peripheral.swift */,
 				0974ABA71D28C19C008B1B4F /* PeripheralProxy.swift */,
 				09709D2D1D306ADB00E01235 /* DescriptorValue.swift */,
 				09DEF3B01CC839DE00F9B4EE /* CBUUIDConvertible.swift */,
 				096A03C91D1A6FEE00CB196C /* CBUUIDPath.swift */,
 				090622BC1D11380200368A28 /* CBExtensions.swift */,
-				59493C943987B6C658526D67 /* Result.swift */,
 				09C576A81CC626C70001EFF7 /* Util.swift */,
 			);
 			name = Source;
@@ -205,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09C576AA1CC626C70001EFF7 /* SBError.swift in Sources */,
+				408B5F7D1F3A2E6D0054F435 /* Result.swift in Sources */,
 				0974ABA41D28C176008B1B4F /* CentralProxy.swift in Sources */,
 				09C576AB1CC626C70001EFF7 /* Peripheral.swift in Sources */,
 				09C576A91CC626C70001EFF7 /* Central.swift in Sources */,
@@ -213,9 +215,9 @@
 				096A03CA1D1A6FEE00CB196C /* CBUUIDPath.swift in Sources */,
 				09709D2E1D306ADB00E01235 /* DescriptorValue.swift in Sources */,
 				090622BD1D11380200368A28 /* CBExtensions.swift in Sources */,
+				C5317C9D1EC658E5007179BC /* (null) in Sources */,
 				09DEF3B11CC839DE00F9B4EE /* CBUUIDConvertible.swift in Sources */,
 				09C576AC1CC626C70001EFF7 /* Util.swift in Sources */,
-				5949336FBD625A0984FED486 /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,7 +245,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -269,6 +271,7 @@
 				SDKROOT = iphoneos;
 				SWIFTYBLUETOOTH_DIRECT_ACCESS = SWIFTYBLUETOOTH_DIRECT_ACCESS;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -296,7 +299,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -315,6 +318,7 @@
 				SDKROOT = iphoneos;
 				SWIFTYBLUETOOTH_DIRECT_ACCESS = SWIFTYBLUETOOTH_DIRECT_ACCESS;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
