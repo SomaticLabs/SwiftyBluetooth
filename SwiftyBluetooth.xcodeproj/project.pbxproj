@@ -7,21 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		090622BD1D11380200368A28 /* CBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090622BC1D11380200368A28 /* CBExtensions.swift */; };
-		0950A66B1D2101DE00512F59 /* SwiftyBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A66A1D2101DE00512F59 /* SwiftyBluetooth.swift */; };
 		096409B21CC6103D00ADD4D9 /* Supporting Files in Headers */ = {isa = PBXBuildFile; fileRef = 096409B11CC6103D00ADD4D9 /* Supporting Files */; settings = {ATTRIBUTES = (Public, ); }; };
 		096409BD1CC610CD00ADD4D9 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 096409BC1CC610CD00ADD4D9 /* CoreBluetooth.framework */; };
-		096A03CA1D1A6FEE00CB196C /* CBUUIDPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A03C91D1A6FEE00CB196C /* CBUUIDPath.swift */; };
-		09709D2E1D306ADB00E01235 /* DescriptorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09709D2D1D306ADB00E01235 /* DescriptorValue.swift */; };
-		0974ABA41D28C176008B1B4F /* CentralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0974ABA31D28C176008B1B4F /* CentralProxy.swift */; };
-		0974ABA81D28C19C008B1B4F /* PeripheralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0974ABA71D28C19C008B1B4F /* PeripheralProxy.swift */; };
-		09C576A91CC626C70001EFF7 /* Central.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A51CC626C70001EFF7 /* Central.swift */; };
-		09C576AA1CC626C70001EFF7 /* SBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A61CC626C70001EFF7 /* SBError.swift */; };
-		09C576AB1CC626C70001EFF7 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A71CC626C70001EFF7 /* Peripheral.swift */; };
-		09C576AC1CC626C70001EFF7 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A81CC626C70001EFF7 /* Util.swift */; };
-		09DEF3B11CC839DE00F9B4EE /* CBUUIDConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEF3B01CC839DE00F9B4EE /* CBUUIDConvertible.swift */; };
-		408B5F7D1F3A2E6D0054F435 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B5F7C1F3A2E6D0054F435 /* Result.swift */; };
-		C5317C9D1EC658E5007179BC /* (null) in Sources */ = {isa = PBXBuildFile; };
+		40BB16B21F3D0F49005F31D9 /* SwiftyBluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0950A66A1D2101DE00512F59 /* SwiftyBluetooth.swift */; };
+		40BB16B31F3D0F49005F31D9 /* SBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A61CC626C70001EFF7 /* SBError.swift */; };
+		40BB16B41F3D0F49005F31D9 /* Central.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A51CC626C70001EFF7 /* Central.swift */; };
+		40BB16B51F3D0F49005F31D9 /* CentralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0974ABA31D28C176008B1B4F /* CentralProxy.swift */; };
+		40BB16B61F3D0F49005F31D9 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408B5F7C1F3A2E6D0054F435 /* Result.swift */; };
+		40BB16B71F3D0F49005F31D9 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A71CC626C70001EFF7 /* Peripheral.swift */; };
+		40BB16B81F3D0F49005F31D9 /* PeripheralProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0974ABA71D28C19C008B1B4F /* PeripheralProxy.swift */; };
+		40BB16B91F3D0F49005F31D9 /* DescriptorValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09709D2D1D306ADB00E01235 /* DescriptorValue.swift */; };
+		40BB16BA1F3D0F49005F31D9 /* CBUUIDConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09DEF3B01CC839DE00F9B4EE /* CBUUIDConvertible.swift */; };
+		40BB16BB1F3D0F49005F31D9 /* CBUUIDPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096A03C91D1A6FEE00CB196C /* CBUUIDPath.swift */; };
+		40BB16BC1F3D0F49005F31D9 /* CBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090622BC1D11380200368A28 /* CBExtensions.swift */; };
+		40BB16BD1F3D0F49005F31D9 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09C576A81CC626C70001EFF7 /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -205,19 +204,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09C576AA1CC626C70001EFF7 /* SBError.swift in Sources */,
-				408B5F7D1F3A2E6D0054F435 /* Result.swift in Sources */,
-				0974ABA41D28C176008B1B4F /* CentralProxy.swift in Sources */,
-				09C576AB1CC626C70001EFF7 /* Peripheral.swift in Sources */,
-				09C576A91CC626C70001EFF7 /* Central.swift in Sources */,
-				0974ABA81D28C19C008B1B4F /* PeripheralProxy.swift in Sources */,
-				0950A66B1D2101DE00512F59 /* SwiftyBluetooth.swift in Sources */,
-				096A03CA1D1A6FEE00CB196C /* CBUUIDPath.swift in Sources */,
-				09709D2E1D306ADB00E01235 /* DescriptorValue.swift in Sources */,
-				090622BD1D11380200368A28 /* CBExtensions.swift in Sources */,
-				C5317C9D1EC658E5007179BC /* (null) in Sources */,
-				09DEF3B11CC839DE00F9B4EE /* CBUUIDConvertible.swift in Sources */,
-				09C576AC1CC626C70001EFF7 /* Util.swift in Sources */,
+				40BB16B21F3D0F49005F31D9 /* SwiftyBluetooth.swift in Sources */,
+				40BB16B31F3D0F49005F31D9 /* SBError.swift in Sources */,
+				40BB16B41F3D0F49005F31D9 /* Central.swift in Sources */,
+				40BB16B51F3D0F49005F31D9 /* CentralProxy.swift in Sources */,
+				40BB16B61F3D0F49005F31D9 /* Result.swift in Sources */,
+				40BB16B71F3D0F49005F31D9 /* Peripheral.swift in Sources */,
+				40BB16B81F3D0F49005F31D9 /* PeripheralProxy.swift in Sources */,
+				40BB16B91F3D0F49005F31D9 /* DescriptorValue.swift in Sources */,
+				40BB16BA1F3D0F49005F31D9 /* CBUUIDConvertible.swift in Sources */,
+				40BB16BB1F3D0F49005F31D9 /* CBUUIDPath.swift in Sources */,
+				40BB16BC1F3D0F49005F31D9 /* CBExtensions.swift in Sources */,
+				40BB16BD1F3D0F49005F31D9 /* Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
