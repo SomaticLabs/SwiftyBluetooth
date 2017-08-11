@@ -31,17 +31,23 @@ final class CentralProxy: NSObject {
     fileprivate lazy var connectRequests: [UUID: ConnectPeripheralRequest] = [:]
     fileprivate lazy var disconnectRequests: [UUID: DisconnectPeripheralRequest] = [:]
     
-    let centralManager: CBCentralManager
+    var centralManager: CBCentralManager!
     
     override init() {
-        self.centralManager = CBCentralManager(delegate: nil, queue: nil)
         super.init()
-        self.centralManager.delegate = self
+        
+        self.centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
-    fileprivate func postCentralEvent(_ event: CentralEvent, userInfo: [AnyHashable: Any]? = nil) {
+    init(stateRestoreIdentifier: String) {
+        super.init()
+        
+        self.centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey: stateRestoreIdentifier])
+    }
+    
+    fileprivate func postCentralEvent(_ event: NSNotification.Name, userInfo: [AnyHashable: Any]? = nil) {
         NotificationCenter.default.post(
-            name: Notification.Name(rawValue: event.rawValue),
+            name: event,
             object: Central.sharedInstance,
             userInfo: userInfo)
     }
@@ -102,7 +108,7 @@ private final class PeripheralScanRequest {
 }
 
 extension CentralProxy {
-    func scanWithTimeout(_ timeout: TimeInterval, serviceUUIDs: [CBUUID]?, _ callback: @escaping PeripheralScanCallback) {
+    func scanWithTimeout(_ timeout: TimeInterval, serviceUUIDs: [CBUUID]?, options: [String : Any]?, _ callback: @escaping PeripheralScanCallback) {
         initializeBluetooth { [unowned self] (error) in
             if let error = error {
                 callback(PeripheralScanResult.scanStopped(error: error))
@@ -115,7 +121,7 @@ extension CentralProxy {
                 self.scanRequest = scanRequest
                 
                 scanRequest.callback(.scanStarted)
-                self.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: nil)
+                self.centralManager.scanForPeripherals(withServices: serviceUUIDs, options: options)
                 
                 Timer.scheduledTimer(
                     timeInterval: timeout,
@@ -162,11 +168,11 @@ private final class ConnectPeripheralRequest {
     }
     
     func invokeCallbacks(error: Error?) {
-        let result: Result<NoValue> = {
+        let result: SwiftyBluetooth.Result<Void> = {
             if let error = error {
                 return .failure(error)
             } else {
-                return .success(.noValue)
+                return .success()
             }
         }()
         for callback in callbacks {
@@ -186,7 +192,7 @@ extension CentralProxy {
             let uuid = peripheral.identifier
             
             if let cbPeripheral = self.centralManager.retrievePeripherals(withIdentifiers: [uuid]).first , cbPeripheral.state == .connected {
-                callback(.success(.noValue))
+                callback(.success())
                 return
             }
             
@@ -240,11 +246,11 @@ private final class DisconnectPeripheralRequest {
     }
     
     func invokeCallbacks(error: Error?) {
-        let result: Result<NoValue> = {
+        let result: SwiftyBluetooth.Result<Void> = {
             if let error = error {
                 return .failure(error)
             } else {
-                return .success(.noValue)
+                return .success()
             }
         }()
         for callback in callbacks {
@@ -266,7 +272,7 @@ extension CentralProxy {
             
             if let cbPeripheral = self.centralManager.retrievePeripherals(withIdentifiers: [uuid]).first,
                 (cbPeripheral.state == .disconnected || cbPeripheral.state == .disconnecting) {
-                callback(.success(.noValue))
+                callback(.success())
                 return
             }
             
@@ -308,6 +314,8 @@ extension CentralProxy {
 extension CentralProxy: CBCentralManagerDelegate {
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        postCentralEvent(Central.CentralStateChange, userInfo: ["state": central.state])
+        
         switch central.state.rawValue {
         case 0: // .unknown
             self.stopScan(error: .scanningEndedUnexpectedly)
@@ -331,35 +339,35 @@ extension CentralProxy: CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         let uuid = peripheral.identifier
-        guard let request = self.connectRequests[uuid] else {
+        guard let request = connectRequests[uuid] else {
             return
         }
         
-        self.connectRequests[uuid] = nil
+        connectRequests[uuid] = nil
         
         request.invokeCallbacks(error: nil)
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         let uuid = peripheral.identifier
-        guard let request = self.disconnectRequests[uuid] else {
+        guard let request = disconnectRequests[uuid] else {
             return
         }
         
-        self.disconnectRequests[uuid] = nil
+        disconnectRequests[uuid] = nil
         
         request.invokeCallbacks(error: error)
     }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         let uuid = peripheral.identifier
-        guard let request = self.connectRequests[uuid] else {
+        guard let request = connectRequests[uuid] else {
             return
         }
         
         let resolvedError: Error = error ?? SBError.peripheralFailedToConnectReasonUnknown
         
-        self.connectRequests[uuid] = nil
+        connectRequests[uuid] = nil
         
         request.invokeCallbacks(error: resolvedError)
     }
@@ -375,11 +383,17 @@ extension CentralProxy: CBCentralManagerDelegate {
         
         let peripheral = Peripheral(peripheral: peripheral)
         
-        scanRequest.callback(.scanResult(peripheral: peripheral, advertisementData: advertisementData, RSSI: RSSI))
+        var rssiOptional: Int? = Int(RSSI)
+        if let rssi = rssiOptional, rssi == 127 {
+            rssiOptional = nil
+        }
+        
+        scanRequest.callback(.scanResult(peripheral: peripheral, advertisementData: advertisementData, RSSI: rssiOptional))
     }
     
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
-        self.postCentralEvent(.CentralManagerWillRestoreState, userInfo: dict)
+        let peripherals = ((dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral]) ?? []).map { Peripheral(peripheral: $0) }
+        postCentralEvent(Central.CentralManagerWillRestoreState, userInfo: ["peripherals": peripherals])
     }
 
 }
