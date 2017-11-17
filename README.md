@@ -96,34 +96,13 @@ peripheral.writeValue(ofCharacWithUUID: "1d5bc11d-e28c-4157-a7be-d8b742a013d8",
     }
 }
 ```
-<<<<<<< HEAD
-### Listening to and receiving Characteristic update notifications
-=======
 ### Receiving Characteristic update notifications
->>>>>>> e38dfdfb7686e99d983675988bc6228705919464
 Receiving characteristic value updates is done through notifications on the default `NotificationCenter`. All supported `Peripheral` notifications are part of the `PeripheralEvent` enum. Use this enum's raw values as the notification string when registering for notifications:
 ```swift
 // First we prepare ourselves to receive update notifications 
 let peripheral = somePeripheral
 
-<<<<<<< HEAD
-NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: PeripheralEvent.characteristicValueUpdate.rawValue), 
-                                                                    object: peripheral, 
-                                                                    queue: nil) { notification in
-    let updatedCharacteristic = notification.userInfo?["characteristic"] as! CBCharacteristic
-    var newValue = updatedCharacteristic.value
-}
-
-// We can then set a characteristic's notification value to true and start receiving updates to that characteristic
-peripheral.setNotifyValue(toEnabled: true, forCharacWithUUID: "2A29", ofServiceWithUUID: "180A") { result in
-    switch result {
-    case .success(let isNotifying):
-        break // You will now receive NSNotifications when that characteristic value gets updated.
-    case .failure(let error):
-        break // An error happened setting the characteristic to notify.
-    }
-=======
-NotificationCenter.default.addObserver(forName: Peripheral.PeripheralCharacteristicValueUpdate, 
+NotificationCenter.default.addObserver(forName: Peripheral.PeripheralCharacteristicValueUpdate,
                                         object: peripheral, 
                                         queue: nil) { (notification) in
     let charac = notification.userInfo!["characteristic"] as! CBCharacteristic
@@ -135,7 +114,6 @@ NotificationCenter.default.addObserver(forName: Peripheral.PeripheralCharacteris
 // We can then set a characteristic's notification value to true and start receiving updates to that characteristic
 peripheral.setNotifyValue(toEnabled: true, forCharacWithUUID: "2A29", ofServiceWithUUID: "180A") { (isNotifying, error) in
     // If there were no errors, you will now receive Notifications when that characteristic value gets updated.
->>>>>>> e38dfdfb7686e99d983675988bc6228705919464
 }
 ```
 ### Discovering services 
