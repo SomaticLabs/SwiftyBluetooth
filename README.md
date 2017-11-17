@@ -1,7 +1,5 @@
 # SwiftyBluetooth
-Swift 3, fully featured closures based library for CoreBluetooth on iOS 9+ devices. 
-
-For Swift 2 use v0.1.1
+Fully featured closures based library for CoreBluetooth on iOS 9+ devices.
 
 ## Background 
 CoreBluetooth and its delegate based API can be difficult to use at time. Often times you already know the specifications of the peripheral you're about to use and simply want to read or write to predetermined characteristics.  
@@ -9,7 +7,7 @@ CoreBluetooth and its delegate based API can be difficult to use at time. Often 
 SwiftyBluetooth tries to address these concerns by providing a clear, closure based, API for every `CBCentralManager` and `CBPeripheral` calls. Furthermore, all your calls are guaranteed to timeout in case of untraceable errors. If required, SwiftyBluetooth will also take care of connecting to peripherals and discovering the required attributes when executing read or write operations lowering the amount of work you need to do. 
 
 ## Features
-- Supports Swift 3 ~> v0.2.0 and Swift 2 = v0.1.1
+- Supports Swift 4 ~> v1.0.0, for Swift 3 use v0.4.0
 - Synthaxic sugar and helper functions for common CoreBluetooth tasks 
 - Closure based CBCentralManager peripheral scanning with a timeout
 - Notification based event for CBCentralManager state changes and state restoration  
@@ -21,7 +19,7 @@ SwiftyBluetooth tries to address these concerns by providing a clear, closure ba
 ## Usage
 The Library has 2 important class:  
 
-- The `Central` class, a Singleton wrapper around `CBCentralManager` mostly used to scan for peripherals with a closure callback. 
+- The `Central` class, a Singleton wrapper around `CBCentralManager` used to scan for peripherals with a closure callback and restore previous sessions.
 - The `Peripheral` class, a wrapper around `CBPeripheral` used to call `CBPeripheral` functions with closure callbacks. 
 
 Note: The library is currently not thread safe, make sure to run your `Central` and `Peripheral` operations on the main thread. 
@@ -57,17 +55,6 @@ peripheral.connect { result in
     }
 }
 ```
-### Disconnecting from a peripheral
-```swift
-peripheral.disconnect { result in 
-    switch result {
-    case .success:
-        break // You are now disconnected from the peripheral
-    case .failure(let error):
-        break // An error happened during the disconnection
-    }
-}
-```
 ### Reading from a peripheral's service's characteristic
 If you already know the characteristic and service UUIDs you want to read from, once a peripheral has been found you can read from it right away like this: 
 
@@ -97,10 +84,10 @@ peripheral.readValue(ofCharac: charac) { result in
 ### Writing to a Peripheral's service's characteristic
 If you already know the characteristic and service UUID you want to write to, once a peripheral has been found, you can write to that characteristic right away like this: 
 ```swift
-let exampleBinaryData = String(0b1010).dataUsingEncoding(NSUTF8StringEncoding)!
+let data = String(0b1010).dataUsingEncoding(NSUTF8StringEncoding)!
 peripheral.writeValue(ofCharacWithUUID: "1d5bc11d-e28c-4157-a7be-d8b742a013d8", 
                       fromServiceWithUUID: "4011e369-5981-4dae-b686-619dc656c7ba", 
-                      value: exampleBinaryData) { result in
+                      value: data) { result in
     switch result {
     case .success:
         break // The write was successful.
@@ -223,7 +210,7 @@ $ pod install
 Add this to your Cartfile 
 
 ```ogdl
-github "tehjord/SwiftyBluetooth"
+github "jordanebelanger/SwiftyBluetooth"
 ```
 
 ## Requirements
