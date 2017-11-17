@@ -7,7 +7,7 @@ CoreBluetooth and its delegate based API can be difficult to use at time. Often 
 SwiftyBluetooth tries to address these concerns by providing a clear, closure based, API for every `CBCentralManager` and `CBPeripheral` calls. Furthermore, all your calls are guaranteed to timeout in case of untraceable errors. If required, SwiftyBluetooth will also take care of connecting to peripherals and discovering the required attributes when executing read or write operations lowering the amount of work you need to do. 
 
 ## Features
-- Supports Swift 4 ~> v1.0.0, for Swift 3 use v0.4.0
+- Supports Swift 4 ~> v1.0.0, for Swift 3 use v0.3.4
 - Synthaxic sugar and helper functions for common CoreBluetooth tasks 
 - Closure based CBCentralManager peripheral scanning with a timeout
 - Notification based event for CBCentralManager state changes and state restoration  
